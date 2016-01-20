@@ -75,5 +75,6 @@ int main(int argc, char* argv[])
         g_clear_error (&error);
     }
     notify_uninit();
+    free(message);
     return 0;
 }
