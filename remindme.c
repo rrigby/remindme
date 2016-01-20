@@ -50,11 +50,10 @@ int main(int argc, char* argv[])
         message = calloc(MAX_MSG_LEN, sizeof(char));
         char *p = message;
         size_t message_length = 0;
+        size_t size = 0;
         for(int i = 1; i < argc-1; ++i) {
-            size_t size = 0;
             p = wordcat(&size, MAX_MSG_LEN-message_length, p, argv[i]);
             message_length += size;
-            printf("%d\n", size);
         }
         sscanf(argv[argc-1], "%d%c", &l,&m);
     }
