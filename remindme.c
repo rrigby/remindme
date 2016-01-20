@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include <libnotify/notify.h>
 #include <unistd.h>
 
