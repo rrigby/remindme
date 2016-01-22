@@ -2,9 +2,8 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <libnotify/notify.h>
-#include <glib-object.h>
 #include <unistd.h>
-#include <string.h>
+
 #define MAX_MSG_LEN 512
 
 // Function to concat words and
