@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <gtk/gtk.h>
 #include <libnotify/notify.h>
+#include <glib-object.h>
 #include <unistd.h>
-
+#include <string.h>
 #define MAX_MSG_LEN 512
 
 // Function to concat words and
@@ -33,8 +35,15 @@ int modifier(char m)
     }
 }
 
+void closed()
+{
+    notify_uninit();
+    exit(1);
+}
+
 int main(int argc, char* argv[])
 {
+    gtk_init (&argc, &argv);
     char* message = NULL;
     char m = 0;
     unsigned int l = 0;
@@ -60,20 +69,27 @@ int main(int argc, char* argv[])
 
     success = notify_init(argv[0]);
     if(!success) {
+        printf("error\n");
         fprintf(stderr, "notify_init() failed. Exiting.\n");
         return 0;
     }
 
-    notification = notify_notification_new("remindMe", message, NULL);
-    notify_notification_set_timeout(notification,NOTIFY_EXPIRES_NEVER);
-    sleep(l*modifier(m));
+    notification = notify_notification_new ("remindMe", message, NULL);
+    g_signal_connect (notification, "closed", closed, NULL);
+    notify_notification_set_timeout (notification, NOTIFY_EXPIRES_NEVER);
+    notify_notification_set_urgency (notification, NOTIFY_URGENCY_CRITICAL);
 
-    success = notify_notification_show(notification, &error);
+    free(message);
+    sleep (l*modifier (m));
+
+    success = notify_notification_show (notification, &error);
     if(!success) {
+        printf("error\n");
         fprintf(stderr, "%s\n", error->message);
         g_clear_error (&error);
     }
-    notify_uninit();
-    free(message);
+    gtk_main ();
+
+
     return 0;
 }
