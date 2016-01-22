@@ -69,7 +69,6 @@ int main(int argc, char* argv[])
 
     success = notify_init(argv[0]);
     if(!success) {
-        printf("error\n");
         fprintf(stderr, "notify_init() failed. Exiting.\n");
         return 0;
     }
@@ -80,16 +79,15 @@ int main(int argc, char* argv[])
     notify_notification_set_urgency (notification, NOTIFY_URGENCY_CRITICAL);
 
     free(message);
+
     sleep (l*modifier (m));
 
     success = notify_notification_show (notification, &error);
     if(!success) {
-        printf("error\n");
         fprintf(stderr, "%s\n", error->message);
         g_clear_error (&error);
     }
     gtk_main ();
-
 
     return 0;
 }
